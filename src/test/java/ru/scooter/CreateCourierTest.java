@@ -21,10 +21,7 @@ public class CreateCourierTest extends BaseTest {
     @Severity(SeverityLevel.CRITICAL)
     public void successRegistrationUserTest() {
         // given
-        NewUserDto newUser = new NewUserDto()
-                .login("auto" + RandomStringUtils.randomAlphabetic(7))
-                .password("" + RandomStringUtils.randomAlphabetic(5))
-                .firstName("name" + RandomStringUtils.randomAlphabetic(7));
+        NewUserDto newUser = NewUserDto.getRandom();
 
         // expect
         apiService.creationUser(newUser)
@@ -54,10 +51,7 @@ public class CreateCourierTest extends BaseTest {
     @Severity(SeverityLevel.MINOR)
     public void cannotCreateDoubleUserTest() {
         // given
-        NewUserDto newUser = new NewUserDto()
-                .login("auto" + RandomStringUtils.randomAlphabetic(7))
-                .password("" + RandomStringUtils.randomAlphabetic(5))
-                .firstName("name" + RandomStringUtils.randomAlphabetic(7));
+        NewUserDto newUser = NewUserDto.getRandom();
 
         // Create user
         apiService.creationUser(newUser)

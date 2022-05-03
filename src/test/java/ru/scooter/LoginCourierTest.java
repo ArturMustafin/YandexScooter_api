@@ -24,14 +24,10 @@ public class LoginCourierTest extends BaseTest {
     @Severity(SeverityLevel.CRITICAL)
     public void successRegistrationUserTest() {
         // given
-        NewUserDto newUser = new NewUserDto()
-                .login("auto" + RandomStringUtils.randomAlphabetic(7))
-                .password("" + RandomStringUtils.randomAlphabetic(5))
-                .firstName("name" + RandomStringUtils.randomAlphabetic(7));
+        NewUserDto newUser = NewUserDto.getRandom();
 
-        LoginDto login = new LoginDto()
-                .login(newUser.login())
-                .password(newUser.password());
+        LoginDto login = LoginDto.from(newUser);
+
         // Creation User
         apiService.creationUser(newUser).shouldHave(statusCode(201));
 
@@ -67,7 +63,7 @@ public class LoginCourierTest extends BaseTest {
 
         // expect
         apiService.loginUser(login)
-                    .shouldHave(statusCode(504));
+                .shouldHave(statusCode(504));
     }
 
 
@@ -76,9 +72,7 @@ public class LoginCourierTest extends BaseTest {
     @Severity(SeverityLevel.NORMAL)
     public void incorrectLoginAndPasswordTest() {
         // given
-        LoginDto login = new LoginDto()
-                .login("auto" + RandomStringUtils.randomAlphabetic(7))
-                .password("" + RandomStringUtils.randomAlphabetic(5));
+        LoginDto login = LoginDto.getRandom();
 
         // expect
         apiService.loginUser(login)
@@ -92,14 +86,11 @@ public class LoginCourierTest extends BaseTest {
     @Severity(SeverityLevel.NORMAL)
     public void incorrectPasswordTest() {
         // given
-        NewUserDto newUser = new NewUserDto()
-                .login("auto" + RandomStringUtils.randomAlphabetic(7))
-                .password("" + RandomStringUtils.randomAlphabetic(5))
-                .firstName("name" + RandomStringUtils.randomAlphabetic(7));
+        NewUserDto newUser = NewUserDto.getRandom();
 
         LoginDto login = new LoginDto()
                 .login(newUser.login())
-                .password("" + RandomStringUtils.randomAlphabetic(5));
+                .password(RandomStringUtils.randomAlphabetic(5));
 
         // Creation User
         apiService.creationUser(newUser).shouldHave(statusCode(201));
@@ -116,13 +107,10 @@ public class LoginCourierTest extends BaseTest {
     @Severity(SeverityLevel.NORMAL)
     public void incorrectLoginTest() {
         // given
-        NewUserDto newUser = new NewUserDto()
-                .login("auto" + RandomStringUtils.randomAlphabetic(7))
-                .password("" + RandomStringUtils.randomAlphabetic(5))
-                .firstName("name" + RandomStringUtils.randomAlphabetic(7));
+        NewUserDto newUser = NewUserDto.getRandom();
 
         LoginDto login = new LoginDto()
-                .login("" + RandomStringUtils.randomAlphabetic(5))
+                .login(RandomStringUtils.randomAlphabetic(5))
                 .password(newUser.password());
 
         // Creation User
